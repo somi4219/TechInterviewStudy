@@ -27,6 +27,9 @@
 | L3 ( **전송** 계층 ) | L4 ( 전송 계층 ) |
 | L4 ( 응용 계층 ) | L5 ( 세션 계층 ) + L6 ( 표현 계층 ) + L7 ( 응용 계층 ) |
 
+<img src="https://img1.daumcdn.net/thumb/R1600x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FcgJ1bs%2FbtruwIivAHg%2FAAAAAAAAAAAAAAAAAAAAABmpcro5CDBDMpN_bRaV18SRE9zZbGQJJnAAnfURSemR%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1764514799%26allow_ip%3D%26allow_referer%3D%26signature%3DVnvwyrcehb1kW7e%252FAoDycGtxVyg%253D">
+
+
 # 💡중요 키워드 정리
 
 | OSI 계층 | 중요 키워드 |
@@ -34,6 +37,7 @@
 | L3 ( 네트워크 계층 ) | 패킷, 라우터 ( 라우팅 ), IP주소,, NAT, SDN, DHCP, ISP, Firewall, 도커 |
 | L4 ( 전송 계층 ) | TCP, UDP |
 | L7 ( 응용 계층 ) | HTTP(s),쿠키, 세션, 캐시, 세션 기반 인증 vs 토큰 기반 인증 ( JWT 토큰 ), CORS, API Gateway, L7 로드밸런싱 ( vs L4 로드밸런싱 , 쿠버네티스 ), DNS |
+
 
 # 프로토콜
 
@@ -45,7 +49,7 @@
 - 의미(Semantics) : 두 기기 간의 효율적이고 정확한 정보 전송을 위한 협조 사항과 오류 관리를 위한 제어 정보를 규정
 - 시간(Timing) : 두 기기 간의 통신 속도, 메시지의 순서 제어 등을 규정
 
-| OSI 계층 | 중요 키워드 |
+| OSI 계층 | 계층별 프로토콜 |
 | --- | --- |
 | L1 ( 물리 계층 ) | - |
 | L2 ( 데이터 링크 계층 ) | Ethernet, Token Ring, FDDI, Apple Talk |
@@ -54,6 +58,7 @@
 | L5 ( 세션 계층 ) | NetBIOS, SAP, SDP, NWLink |
 | L6 ( 표현 계층 ) | ASCII, MPEG, JPEG, MIDI |
 | L7 ( 응용 계층 ) | HTTP, SMTP, FTP, Telnet |
+
 
 # HTTP, HTTPS
 
@@ -94,9 +99,8 @@
 
 # 전체적인 웹 동작 방식
 
-![스크린샷 2025-11-17 오전 5.29.14.png](attachment:a4a7b083-c094-454b-a038-5b7479714c74:스크린샷_2025-11-17_오전_5.29.14.png)
+<img src="https://img1.daumcdn.net/thumb/R1600x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FblP6Co%2FbtruDDt3Rwm%2FAAAAAAAAAAAAAAAAAAAAAFYWA9Sc0PMUYmf914xrsdP309NM37MgAxkvPdh0k984%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1764514799%26allow_ip%3D%26allow_referer%3D%26signature%3D80ssdmX6CX0ZO9oxlMxMKU6ifT8%253D">
 
- 
 
 - 사용자가 브라우저에 URL([www.naver.com](http://www.naver.com/))을 입력
 - DNS 서버에 도메인 네임으로 서버의 진짜 주소를 찾음
