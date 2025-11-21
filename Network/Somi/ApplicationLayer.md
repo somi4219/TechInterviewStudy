@@ -312,11 +312,11 @@ EX ) https://localhost:8080, localhost:3000의 경우 포트가 다르기 때문
         - 요청으로 인해 서버의 데이터가 변경되는 경우임
         - Preflight Request로 예비요청을 보내 안전한지 확인한 후, 허락이 떨어지면 본격적인 request가 가능함.
 
-# 5. REST ( + REST API, RESTful API )
+# 5. REST ( + REST API )
 
 ### REST 란?
 
-REpresentational State Transfer의 약자
+REpresentational State Transfer
 
 = 자원 ( Resource ) 의 표현 ( Representation ) 에 의한 상태 전달 ( State Transfer )
 
@@ -358,18 +358,118 @@ REST 원칙에 따라 설계된 API를 의미
 
 = API가 지나가는 통로
 
+---
+
+### *MSA ( Micro Service Architecture )
+
+: 독립적인 기능을 수행하는 작은 단위의 여러 서비스들로 구성된 아키텍처
+
+EX ) 블로그 시스템 → 회원 서비스, 게시글 서비스  등등,,
+
+- 회원가입 api, 로그인 api 등은 회원 서비스에서 처리
+- 게시글 등록 api, 게시글 삭제 api 등은 게시글 서비스에서 처리
+
+( 최근 실무에서 많이 사용되는 아키텍처 )
+
+---
+
+> ⁉️ 위와 같은 서비스가 50개, 100개가 되었을때 많은 서비스들의 앤드포인트를 관리하는 데에 어려움이 생김.
+> 
+> 
+> 또한 , 서비스마다 인가인증 처럼 공통적으로 모두 가져야하는 기능을 중복으로 개발해야한다는 문제점이 발생함
+> 
+
 <img src="https://velog.velcdn.com/images%2Fjkijki12%2Fpost%2F27778d9d-4989-45b7-b282-11b3dcc54dbb%2Fcvbcvbcvbcvbcvbcvbcvbcvbcvbcvbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.PNG">
 
-→ API 게이트웨이를 등록해주면, 모든 클라이언트는 각 서비스의 엔드포인트 대신 API Gateway로 요청 전달
-
-클라이언트가 여러 백엔드 서비스에 접근할 수 있도록 **단일** 진입점 제공
-
+> ✅
+> 
+> - API 게이트웨이를 등록해주면, 모든 클라이언트는 각 서비스의 엔드포인트 대신 API Gateway로 요청 전달
+> - API Gateway가 설정에 따라 클라이언트 대신 각 엔드포인트로 요청을 하고, 응답을 클라이언트에게 다시 전달함 ( == 프록시 역할을 한다 ! )
+> 
+> → 클라이언트가 여러 백엔드 서비스에 접근할 수 있도록 **단일 진입점** 제공
+> 
 - 기능
     - 인증/인가
-    - 사용량 제어
-    - 요청/응답 변조
+        
+        <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FRPkXR%2FbtrREWSgyr7%2FAAAAAAAAAAAAAAAAAAAAAIJG_DqEFZPjn6voqxBvcppVmI-c5attrxzRFDKp1a-w%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1764514799%26allow_ip%3D%26allow_referer%3D%26signature%3D8DEJEAg6NgTpUUT07Xvv0wUW%252B2g%253D">
+        
+        : 모든 서비스마다 공통으로 구현이 필요함
+        
+        : API Gateway가 클라이언트 인증 정보를 받아 인증서버에게 전달하여 처리
+        
+    - **로드밸런싱**
+        
+        : 여러개의 API 서버로 부하를 분산하는 기능
+        
+        : 어떤 서버에 장애가 발생했을 때, 로드밸런싱 리스트에서 빼고, 복구완료 후 다시 넣는 기능
+        
+    
+    …
+    
 
 # 6. 로드밸런싱
+
+### 로드밸런서란?
+
+: 서버나 장비의 트래픽을 분산하기 위해 사용하는 장비
+
+위에서 언급했던 💡 스케일 아웃 ( 서버를 여러대 추가 ) 방법을 활용하기 위함
+
+<img src="https://blog.kakaocdn.net/dna/cGA96g/btrA6PpTLFN/AAAAAAAAAAAAAAAAAAAAAMPKytv0hmPi01IJ5BBjHqiHUgHyZvKmlmNMxjCrhk-5/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=iXT2G3dnH9A8nrR2MzYgxxC9wfA=">
+
+- 로드밸런서의 업무
+
+: 여러대의 백엔드 서버가 동작하더라도 사용자에게는 **하나의** **서비스** 처럼 ?!
+
+ ✅ 로드밸런서가 대표 IP 주소를 가지고 클라이언트 요청을 받음 → 로드밸런서가 자신과 연결된 백엔드 서버의 실제 IP로 요청을 보냄
+
+1. Service discovery : 현재 가능한 서버의 목록을 유지하고, 그 IP주소를 관리함
+2. Health checking : 어떤 서버가 healthy( 요청을 처리할 수 있는지 )한지 확인
+3. Load balancing : 각 유저의 요청을 특정 알고리즘을 이용해 healthy한 백엔드 서버들에게 나눠 네트워크를 분산시킴 !
+- 장점
+    - Naming abstraction
+        
+        : 클라이언트가 여러 백엔드 서버를 찾을 필요 없이, 로드밸런서만 알고있으면 로드밸런서가 찾고자하는 서버의 이름을 대신 찾아준다
+        
+    - Fault tolerance
+        
+        : 주기적으로 서버의 상태를 체크하고, 특정 서버에 장애가 발생한 경우 다른 서버에 요청을 전달하는 식으로 부하를 분산시킴.
+        
+    - 성능 개선
+        
+        : 여러대의 서버가 요청을 분산해서 받기 때문에 지연 시간을 줄일수 있음
+        
+
+### L7계층 로드밸런서
+
+: 애플리케이션 계층에서 작동하는 로드밸런서
+
+- 주로 HTTP, HTTPS 를 기반으로 클라이언트-서버 간의 트래픽을 분산
+- 요청내용 ( URL, 헤더, 쿠키 ) 등을 기반으로 로드 밸런싱
+- 장점 : 다양한 기능 및 유연성 제공
+    - 요청내용을  분석하여 특정 서버로 전달하거나, 캐싱, 압축 등 구현 가능
+- 단점 : 처리 속도가 느림 → 패킷의 L7 정보를 분석해야하기 때문
+
+→ 웹 서비스, **API 게이트웨이**, CDN 등 L7의 로드 밸런싱이 필요한 서비스
+
+---
+
+**💡 CDN ( Content Delivery Network : 콘텐츠 전송 네트워크 )** 
+
+: 전 세계에 분산된 서버 네트워크를 통해 웹 콘텐츠 ( 이미지,동영상 )를 사용자 기준 가장 가까운 서버에서 전송하여 속도를 높이는 기술
+
+---
+
+### vs L4계층 로드밸런서
+
+: 전송 계층에서 작동하는 로드밸런서
+
+- 주로 TCP, UDP 를 기반으로 클라이언트-서버 간의 트래픽을 분산
+- 클라이언트의 IP주소, 포트 /  서버의 IP주소, 포트를  기반으로 로드 밸런싱
+- 장점 : 응답 속도가 빠름 → 패킷의 헤더 정보만 이용하기 때문에
+- 단점 : L7의 정보를 활용하지 못해 기능이 제한적임
+
+→ 온라인 게임, 스트리밍 서비스 등 **실시간 트래픽 처리**가 중요한 서비스
 
 # ⁉️ 예상 질문 모음
 
